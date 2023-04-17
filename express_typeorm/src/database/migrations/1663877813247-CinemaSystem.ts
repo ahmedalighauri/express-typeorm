@@ -55,7 +55,6 @@ export class CinemaSystem1663877813247 implements MigrationInterface {
 		await queryRunner.query(`
             CREATE TABLE "seats" (
                 "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
-                "price" numeric(10, 2) NOT NULL DEFAULT '0',
                 "name" character varying NOT NULL,
                 "isActive" boolean NOT NULL DEFAULT true,
                 "createdAt" TIMESTAMP NOT NULL DEFAULT now(),
@@ -78,6 +77,7 @@ export class CinemaSystem1663877813247 implements MigrationInterface {
 		await queryRunner.query(`
             CREATE TABLE "shows" (
                 "id" uuid NOT NULL DEFAULT uuid_generate_v4(),
+                "price" numeric(10, 2) NOT NULL DEFAULT '0',
                 "name" character varying NOT NULL,
                 "start" TIMESTAMP NOT NULL,
                 "end" TIMESTAMP NOT NULL,
