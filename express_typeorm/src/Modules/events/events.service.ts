@@ -1,4 +1,5 @@
-import { Repository } from 'typeorm'
+import { MoreThan, Repository } from 'typeorm'
+import { format } from 'date-fns'
 import { Event } from './entities/event.entity'
 import App from '../../app'
 
@@ -171,6 +172,23 @@ export class EventsService {
     ```
      */
 	async getFutureEventWithWorkshops() {
-		throw new Error('TODO task 2')
+		const MoreThanDate = (date: Date) => MoreThan(format(date, 'yyyy-mm-dd HH:MM:SS'))
+
+		const events = await Event.find({
+			relations: {
+				workshops: true,
+			},
+			order: {
+				workshops: {
+					id: 'ASC',
+				},
+			},
+			where: {
+				workshops: {
+					start: MoreThanDate(new Date()),
+				},
+			},
+		})
+		return events
 	}
 }
