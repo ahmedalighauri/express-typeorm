@@ -1,20 +1,19 @@
-import { Repository } from 'typeorm';
-import { Event } from './entities/event.entity';
-import App from "../../app";
-
+import { Repository } from 'typeorm'
+import { Event } from './entities/event.entity'
+import App from '../../app'
 
 export class EventsService {
-  private eventRepository: Repository<Event>;
+	private eventRepository: Repository<Event>
 
-  constructor(app: App) {
-    this.eventRepository = app.getDataSource().getRepository(Event);
-  }
+	constructor(app: App) {
+		this.eventRepository = app.getDataSource().getRepository(Event)
+	}
 
-  async getWarmupEvents() {
-    return await this.eventRepository.find();
-  }
+	async getWarmupEvents() {
+		return await this.eventRepository.find()
+	}
 
-  /* TODO: complete getEventsWithWorkshops so that it returns all events including the workshops
+	/* TODO: complete getEventsWithWorkshops so that it returns all events including the workshops
     Requirements:
     - maximum 2 sql queries
     - verify your solution with `npm run test`
@@ -91,11 +90,21 @@ export class EventsService {
     ```
      */
 
-  async getEventsWithWorkshops() {
-    throw new Error('TODO task 1');
-  }
+	async getEventsWithWorkshops() {
+		const events = await Event.find({
+			relations: {
+				workshops: true,
+			},
+			order: {
+				workshops: {
+					id: 'ASC',
+				},
+			},
+		})
+		return events
+	}
 
-  /* TODO: complete getFutureEventWithWorkshops so that it returns events with workshops, that have not yet started
+	/* TODO: complete getFutureEventWithWorkshops so that it returns events with workshops, that have not yet started
     Requirements:
     - only events that have not yet started should be included
     - the event starting time is determined by the first workshop of the event
@@ -161,7 +170,7 @@ export class EventsService {
     ]
     ```
      */
-  async getFutureEventWithWorkshops() {
-    throw new Error('TODO task 2');
-  }
+	async getFutureEventWithWorkshops() {
+		throw new Error('TODO task 2')
+	}
 }
